@@ -8,28 +8,51 @@ interface DateDropdownProps {
 
 const DateDropdown: React.FC<DateDropdownProps> = ({ onDateChange }) => {
     const handleDateChange = (event: SelectChangeEvent<string>) => {
-        onDateChange(event.target.value);
+        onDateChange(event.target.value as string);
     };
+
+    const formatDateForAPI = (date: Date) => {
+        return date.toISOString().split('T')[0].replace(/-/g, '');
+    }
+
+    const formatDateReadable = (date: Date) => {
+        const options: Intl.DateTimeFormatOptions = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        };
+        return new Intl.DateTimeFormat('en-US', options).format(date);
+    }
 
     const today = new Date();
 
-    const formatDate = (date: Date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}${month}${day}`
-    }
+    const dates = Array.from({ length: 7 }, (_, i) => {
+        const currentDate = new Date(today);
+        currentDate.setDate(today.getDate() + i);
 
-    const dates = [
-        formatDate(today),
-        formatDate(new Date(today.setDate(today.getDate() + 1))),
-        formatDate(new Date(today.setDate(today.getDate() + 2))),
-        formatDate(new Date(today.setDate(today.getDate() + 3))),
-        formatDate(new Date(today.setDate(today.getDate() + 4))),
-        formatDate(new Date(today.setDate(today.getDate() + 5))),
-        formatDate(new Date(today.setDate(today.getDate() + 6))),
-        formatDate(new Date(today.setDate(today.getDate() + 7))),
-    ];
+        return {
+            readableDate: formatDateReadable(currentDate),
+            apiDate: formatDateForAPI(currentDate)
+        };
+    });
+
+    // const formatDate = (date: Date) => {
+    //     const year = date.getFullYear();
+    //     const month = String(date.getMonth() + 1).padStart(2, '0');
+    //     const day = String(date.getDate()).padStart(2, '0');
+    //     return `${year}${month}${day}`
+    // }
+
+    // const dates = [
+    //     formatDate(today),
+    //     formatDate(new Date(today.setDate(today.getDate() + 1))),
+    //     formatDate(new Date(today.setDate(today.getDate() + 2))),
+    //     formatDate(new Date(today.setDate(today.getDate() + 3))),
+    //     formatDate(new Date(today.setDate(today.getDate() + 4))),
+    //     formatDate(new Date(today.setDate(today.getDate() + 5))),
+    //     formatDate(new Date(today.setDate(today.getDate() + 6))),
+    //     formatDate(new Date(today.setDate(today.getDate() + 7))),
+    // ];
 
     return (
         <FormControl variant="outlined" fullWidth>
@@ -37,11 +60,11 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ onDateChange }) => {
             <Select 
                 labelId="date-select-label"
                 onChange={handleDateChange}
-                defaultValue={dates[0]}
+                defaultValue={dates[0].apiDate}
             >
-                {dates.map((date) => (
-                    <MenuItem key={date} value={date}>
-                        {date}
+                {dates.map((date, index) => (
+                    <MenuItem key={index} value={date.apiDate}>
+                        {date.readableDate}
                     </MenuItem>
                 ))}
             </Select>

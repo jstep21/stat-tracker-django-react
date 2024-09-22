@@ -28,11 +28,11 @@ const MatchesTable: React.FC<MatchTableProps> = ({data}) => {
           <Table sx={{ minWidth: 440 }}>
             <TableHead>
               <TableRow>
-                <TableCell align="center">Home Score</TableCell>
-                <TableCell align="center">Home Team</TableCell>
-                <TableCell align="center">Match Time</TableCell>
-                <TableCell align="center">Away Team</TableCell>
-                <TableCell align="center">Away Score</TableCell>
+                <TableCell align="left">Home Score</TableCell>
+                <TableCell align="left">Home Team</TableCell>
+                <TableCell align="left">Match Time</TableCell>
+                <TableCell align="left">Away Team</TableCell>
+                <TableCell align="left">Away Score</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
