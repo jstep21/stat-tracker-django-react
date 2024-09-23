@@ -26,6 +26,11 @@ const CustomerFulfillmentChart = ({
   ...rest
 }: CustomerFulfillmentChartProps): ReactElement => {
   const theme = useTheme();
+
+  if (!data || !data['This Month'] || !data['Last Month']) {
+    return <div>No data available</div>
+  }
+
   const option: CustomerFulfillmentChartOptions = useMemo(
     () => ({
       color: [theme.palette.secondary.main, theme.palette.primary.main],
@@ -129,7 +134,7 @@ const CustomerFulfillmentChart = ({
         },
       ],
     }),
-    [],
+    [data, theme],
   );
 
   return <ReactEChart ref={chartRef} option={option} echarts={echarts} {...rest} />;

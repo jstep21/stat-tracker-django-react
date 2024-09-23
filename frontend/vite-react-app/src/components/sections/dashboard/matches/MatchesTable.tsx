@@ -38,11 +38,11 @@ const MatchesTable: React.FC<MatchTableProps> = ({data}) => {
             <TableBody>
               {league.matches.map((match) => (
                 <TableRow key={match.id}>
-                  <TableCell>{match.home.score !== null ? match.home.score : '-'}</TableCell>
+                  <TableCell>{match.statusId > 1 ? match.home.score : '-'}</TableCell>
                   <TableCell>{match.home.longName}</TableCell>
                   <TableCell>{match.time}</TableCell>
                   <TableCell>{match.away.longName}</TableCell>
-                  <TableCell>{match.away.score !== null ? match.away.score : '-'}</TableCell>
+                  <TableCell>{match.statusId > 1 ? match.away.score : '-'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
