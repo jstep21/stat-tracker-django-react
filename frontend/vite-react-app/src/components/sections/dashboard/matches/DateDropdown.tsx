@@ -1,13 +1,19 @@
+import { useState } from 'react'
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 
 interface DateDropdownProps {
+    selectedDate: string;
     onDateChange: (date: string) => void;
 }
 
-const DateDropdown: React.FC<DateDropdownProps> = ({ onDateChange }) => {
+const DateDropdown: React.FC<DateDropdownProps> = ({ selectedDate, onDateChange }) => {
+    const [internalDate, setInternalDate] = useState<string>(selectedDate)
+
     const handleDateChange = (event: SelectChangeEvent<string>) => {
-        onDateChange(event.target.value as string);
+        const newDate = event.target.value;
+        setInternalDate(newDate);
+        onDateChange(newDate);
     };
 
     const formatDateForAPI = (date: Date) => {
@@ -35,31 +41,14 @@ const DateDropdown: React.FC<DateDropdownProps> = ({ onDateChange }) => {
         };
     });
 
-    // const formatDate = (date: Date) => {
-    //     const year = date.getFullYear();
-    //     const month = String(date.getMonth() + 1).padStart(2, '0');
-    //     const day = String(date.getDate()).padStart(2, '0');
-    //     return `${year}${month}${day}`
-    // }
-
-    // const dates = [
-    //     formatDate(today),
-    //     formatDate(new Date(today.setDate(today.getDate() + 1))),
-    //     formatDate(new Date(today.setDate(today.getDate() + 2))),
-    //     formatDate(new Date(today.setDate(today.getDate() + 3))),
-    //     formatDate(new Date(today.setDate(today.getDate() + 4))),
-    //     formatDate(new Date(today.setDate(today.getDate() + 5))),
-    //     formatDate(new Date(today.setDate(today.getDate() + 6))),
-    //     formatDate(new Date(today.setDate(today.getDate() + 7))),
-    // ];
-
     return (
         <FormControl variant="outlined" fullWidth>
             <InputLabel id="date-select-label">Select Date</InputLabel>
             <Select 
                 labelId="date-select-label"
+                value={internalDate}
                 onChange={handleDateChange}
-                defaultValue={dates[0].apiDate}
+                label="Date"
             >
                 {dates.map((date, index) => (
                     <MenuItem key={index} value={date.apiDate}>

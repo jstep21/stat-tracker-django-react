@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Box } from '@mui/material';
 import { useQuery } from '@tanstack/react-query'
 import DateDropdown from 'components/sections/dashboard/matches/DateDropdown.tsx';
+import CountrySelector from 'components/sections/dashboard/matches/CountrySelector.tsx';
 import { fetchMatches, League } from 'data/match-data.ts'
-
 import CustomerFulfillment from 'components/sections/dashboard/customer-fulfilment/CustomerFulfillment';
 import VisitorInsights from 'components/sections/dashboard/visitor-insights/VisitorInsights';
 import TodaysSales from 'components/sections/dashboard/todays-sales/TodaysSales';
@@ -13,27 +13,33 @@ import Customers from 'components/sections/dashboard/customers/Customers';
 import Earnings from 'components/sections/dashboard/earnings/Earnings';
 import Level from 'components/sections/dashboard/level/Level';
 
+const allCountryCodes = ['ARG', 'BRA', 'ENG', 'ESP', 'FRA', 'GER', 'INT', 'ITA', 'MEX', 'USA']
+
 const Dashboard = () => {
   const formatDate = (date: Date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}${month}${day}`
-  }
+  };
 
   const [selectedDate, setSelectedDate] = useState(formatDate(new Date()));
+  const [selectedCountries, setSelectedCountries] = useState<string[]>(allCountryCodes);
 
   const { data, error, isLoading } = useQuery<League[], Error>({
     queryKey: ['matches', selectedDate] as const, // 'const' makes it readonly tuple
     queryFn: () => fetchMatches(selectedDate)
   });
 
+
+  const handleCountrySelection = (updatedCountries: string[]) => {
+    setSelectedCountries(updatedCountries);
+  }
+
   if (isLoading) return <div>Loading...</div>;
-
   if (error) return <div>Error loading matches</div>;
-
   if (!data || data.length === 0) return <div>No Matches Available</div>;
-
+  
   return (
     <>
       <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={3.5}>
@@ -44,8 +50,18 @@ const Dashboard = () => {
           <Level />
         </Box>
         <Box gridColumn={{ xs: 'span 12', lg: 'span 8' }} order={{ xs: 2, '2xl': 2 }}>
-          <DateDropdown onDateChange={setSelectedDate} />
-          <MatchesTable data={data} />
+          <DateDropdown 
+            selectedDate={selectedDate} 
+            onDateChange={setSelectedDate} 
+          />
+          <CountrySelector 
+            selectedCountries={selectedCountries} 
+            onCountryChange={handleCountrySelection}  
+          />
+          <MatchesTable 
+            data={data} 
+            countryCodes={selectedCountries} 
+          />
         </Box>
         <Box
           gridColumn={{ xs: 'span 12', md: 'span 6', xl: 'span 4' }}
