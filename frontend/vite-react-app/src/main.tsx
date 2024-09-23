@@ -6,7 +6,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import BreakpointsProvider from './providers/BreakpointsProvider.tsx';
 import App from './App.tsx';
 import Dashboard from 'pages/dashboard/Dashboard.tsx';
-import MatchDetails from 'components/sections/dashboard/match-details/MatchDetails.tsx';
+import MatchDetails from 'components/sections/dashboard/match-details/MatchDetailsPage.tsx';
 import './index.css';
 
 const router = createBrowserRouter ([

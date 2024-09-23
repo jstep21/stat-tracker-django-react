@@ -36,6 +36,5 @@ export interface League {
 
 export const fetchMatches = async(date: string): Promise<League[]> => {
   const response = await axiosInstance.get(`/matches/?date=${date}`);
-  if (!response.data) throw new Error('No data receieved');
   return response.data;
 }

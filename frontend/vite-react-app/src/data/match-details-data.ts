@@ -63,3 +63,8 @@ export interface MatchEvents {
     homeTeamRedCards: Record<string, MatchEvent[]>;
     awayTeamRedCards: Record<string, MatchEvent[]>;
 }
+
+export const fetchMatch = async(matchId: number): Promise<MatchDetails> => {
+    const { data } = await axiosInstance.get(`/matches/${matchId}`);
+    return data;
+}

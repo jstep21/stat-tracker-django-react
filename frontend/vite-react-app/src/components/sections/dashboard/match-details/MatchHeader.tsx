@@ -1,33 +1,23 @@
 import { Box, Typography, Avatar } from '@mui/material';
+import { MatchDetails } from 'data/match-details-data'
 
 interface MatchHeaderProps {
-    homeTeam: {
-        name: string;
-        imageUrl: string;
-        score: number;
-    };
-    awayTeam: {
-        name: string;
-        imageUrl: string;
-        score: number;
-    };
-    matchTime: string;
-    hasStarted: boolean;
+    data: MatchDetails;
 }
 
-const MatchHeader: React.FC<MatchHeaderProps> = ({ homeTeam, awayTeam, matchTime, hasStarted }) => {
+const MatchHeader: React.FC<MatchHeaderProps> = ({ data }) => {
     return (
         <Box display="flex" justifyContent="space-between" alignItems="center" p={2} borderRadius={1} >
             <Box display="flex" alignItems="center">
-                <Avatar src={homeTeam.imageUrl} alt={homeTeam.name}/>
-                <Typography variant="h6" mx={1}>{homeTeam.name}</Typography>
+                <Avatar src={data.header.teams[0].imageUrl} alt={data.header.teams[0].name}/>
+                <Typography variant="h6" mx={1}>{data.header.teams[0].name}</Typography>
             </Box>
-            {hasStarted 
-                ? <Typography>{homeTeam.score} - {awayTeam.score}</Typography> 
-                : <Typography variant="h6">{matchTime}</Typography>}
+            {data.general.started 
+                ? <Typography>{data.header.teams[0].score} - {data.header.teams[1].score}</Typography> 
+                : <Typography variant="h6">{data.general.matchTimeUTC}</Typography>}
             <Box display="flex" alignItems="center">
-                <Avatar src={awayTeam.imageUrl} alt={awayTeam.name}/>
-                <Typography variant="h6" mx={1}>{awayTeam.name}</Typography>
+                <Avatar src={data.header.teams[1].imageUrl} alt={data.header.teams[1].name}/>
+                <Typography variant="h6" mx={1}>{data.header.teams[1].name}</Typography>
             </Box>
         </Box>
     )
