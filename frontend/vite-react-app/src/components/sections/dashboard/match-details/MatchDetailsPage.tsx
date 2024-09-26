@@ -3,9 +3,12 @@ import { Box } from '@mui/material';
 import { useQuery } from '@tanstack/react-query'
 import { fetchMatch, MatchDetails } from 'data/match-details-data.ts';
 import MatchHeader from "./MatchHeader";
+import ShotMap from "../shot-map/ShotMap";
 
 
-const MatchDetailsPage = () => {
+const MatchDetailsPage: React.FC = () => {
+
+
     const { matchId } = useParams<{matchId: string}>();
 
     const { data, error, isLoading } = useQuery<MatchDetails, Error>({
@@ -20,6 +23,11 @@ const MatchDetailsPage = () => {
     return (
         <Box>
             <MatchHeader data={data}/>
+            <ShotMap 
+                shotData={data.content.shotmap.Periods.All} 
+                homeTeamId={data.general.homeTeam.id} 
+                awayTeamId={data.general.awayTeam.id}
+            />
         </Box>
     )
 }
