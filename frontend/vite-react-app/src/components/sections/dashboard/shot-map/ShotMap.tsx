@@ -29,7 +29,7 @@ const ShotMap: React.FC<ShotMapProps> = ({ shotData, homeTeamId, awayTeamId }) =
         const svg = d3.select(svgRef.current)
             .attr("width", width)
             .attr("height", height)
-            .style("background-color", "#1e1e1e");
+            .style("background-color", "77DD77");
 
 
         // scaling for x and y coordinates
@@ -73,9 +73,34 @@ const ShotMap: React.FC<ShotMapProps> = ({ shotData, homeTeamId, awayTeamId }) =
             return teamId === homeTeamId ? pitchWidth - x : x;
         }
 
+        const goals = shotData.filter(d => d.eventType === "Goal");
+        const notGoals = shotData.filter(d => d.eventType === "Miss" || d.eventType === "AttemptSaved");
+
+        // // draw lines for on target shots
+        // svg.selectAll("line.shot-line")
+        //     .data(shotData.filter(d => d.isOnTarget))
+        //     .enter()
+        //     .append("line")
+        //     .attr("class", "shot-line")
+        //     .attr("x1", d => xScale(mirrorX(d.x, d.teamId)))
+        //     .attr("y1", d => yScale(d.y))
+        //     .attr("x2", d => {
+        //         const endX = d.isOnTarget ? pitchWidth : d.blockedX || d.x;
+        //         return xScale(mirrorX(endX, d.teamId))
+        //     })
+        //     .attr("y2", d => {
+        //         const endY = d.isOnTarget ? d.goalCrossedY : d.blockedY || d.y;
+        //         return yScale(endY)
+        //     })
+        //     .attr("stroke", d => d.teamColor)
+        //     .attr("stroke-width", 2)
+        //     .attr("stroke-dasharray", d => d.isSavedOffLine ? "4.2" : "0")
+
+
+
         // creates shot circles
         svg.selectAll('circle.shot')
-            .data(shotData)
+            .data(notGoals)
             .enter()
             .append('circle')
             .attr('cx', d => xScale(mirrorX(d.x, d.teamId)))
@@ -100,6 +125,35 @@ const ShotMap: React.FC<ShotMapProps> = ({ shotData, homeTeamId, awayTeamId }) =
                 tooltip.style('visibility', 'hidden');
                 d3.select(this).attr('stroke', 'none');
             });
+
+        svg.selectAll("image-goal-icon")
+            .data(goals)
+            .enter()
+            .append("text")
+            .text("⚽")
+            .attr("x", d => xScale(mirrorX(d.x, d.teamId))) 
+            .attr("y", d => yScale(d.y))
+            .style("font-size", "20px")
+            .attr("text-anchor", "middle")
+            .on('mouseover', function (event, d) {
+                tooltip.html(`
+                    <strong>Player:</strong> ${d.playerName}<br>
+                    <strong>Shot Type:</strong> ${d.shotType}<br>
+                    <em>${d.eventType}</em><br>
+                    <strong>Expected Goals:</strong> ${d.expectedGoals.toFixed(2)}<br>
+                `)
+                .style('visibility', 'visible');
+                d3.select(this).attr('stroke', '#000').attr('stroke-width', 1.5);
+            })
+            .on('mousemove', function (event) {
+                tooltip.style('top',(event.pageY + 5) + 'px')
+                    .style('left', (event.pageX + 5) + 'px')
+            })
+            .on('mouseout', function () {
+                tooltip.style('visibility', 'hidden');
+                d3.select(this).attr('stroke', 'none');
+            });
+            
 
     }, [shotData]);
 
