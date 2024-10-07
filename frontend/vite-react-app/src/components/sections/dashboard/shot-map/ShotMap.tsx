@@ -41,9 +41,9 @@ const ShotMap: React.FC<ShotMapProps> = ({ shotData, homeTeamId, awayTeamId }) =
             .domain([0, pitchHeight])
             .range([0, height]);
         
-        svg.selectAll("*").remove()
+        svg.selectAll("*").remove();
 
-        drawPitchElements(svg, xScale, yScale)
+        drawPitchElements(svg, xScale, yScale);
 
         // draw pitch outline
         svg.append("rect")

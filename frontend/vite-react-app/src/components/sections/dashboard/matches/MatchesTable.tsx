@@ -28,29 +28,32 @@ const MatchesTable: React.FC<MatchTableProps> = ({data, countryCodes}) => {
       </Typography>
       {filteredLeagues.map((league: League) => (
         <TableContainer key={league.id} component={SimpleBar} style={{ maxHeight: '300px' }}>
-          <h2>{league.name}</h2>
+          <Typography variant="h6" color="primary" mb={2}>
+            {league.name}
+          </Typography>
           <Table sx={{ minWidth: 440 }}>
             <TableHead>
               <TableRow>
-                <TableCell align="left">Home Score</TableCell>
-                <TableCell align="left">Home Team</TableCell>
-                <TableCell align="left">Match Time</TableCell>
-                <TableCell align="left">Away Team</TableCell>
-                <TableCell align="left">Away Score</TableCell>
+                <TableCell align="left" sx={{ width: '40%', textAlign:'left' }}>Home Team</TableCell>
+                <TableCell align="center" sx={{ width: '20%', textAlign:'center' }}>Match Time</TableCell>
+                <TableCell align="right" sx={{ width: '40%', textAlign:'right' }}>Away Team</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {league.matches.map((match) => (
                 <TableRow key={match.id}>
-                  <TableCell>{match.statusId > 1 ? match.home.score : '-'}</TableCell>
-                  <TableCell>{match.home.longName}</TableCell>
-                  <TableCell>
-                    <Link to={`/${match.id}`} style={{ textDecoration: 'none', color: 'inhert' }}>
-                      {match.time}
+                  <TableCell align="left" sx={{ width: '40%', textAlign:'left' }}>{match.home.longName}</TableCell>
+                  <TableCell align="center" sx={{ width: '20%', textAlign:'center' }}>
+                    <Link 
+                      to={`/${match.id}`} 
+                      style={{ textDecoration: 'none', color: 'inhert' }}
+                        
+                    >
+                      {match.statusId > 1 ? `${match.home.score} - ${match.away.score}` : match.time}
+                      {/* {match.time} */}
                     </Link>
                   </TableCell>
-                  <TableCell>{match.away.longName}</TableCell>
-                  <TableCell>{match.statusId > 1 ? match.away.score : '-'}</TableCell>
+                  <TableCell align="right" sx={{ width: '40%', textAlign:'right' }}>{match.away.longName}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

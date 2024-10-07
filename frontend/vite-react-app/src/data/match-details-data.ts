@@ -4,6 +4,24 @@ import { Match } from './match-data';
 export interface MatchGeneral {
     matchId: string;
     matchName: string;
+    teamColors: {
+        darkMode: {
+            home: string;
+            away: string;
+        };
+        lightMode: {
+            home: string;
+            away: string;
+        };
+        fontDarkMode: {
+            home: string;
+            away: string;
+        };
+        fontLightMode: {
+            home: string;
+            away: string;
+        };
+    };
     leagueRoundName: string;
     leagueId: number;
     leagueName: string;
@@ -29,9 +47,15 @@ export interface MatchStatus {
     finished: boolean;
     started: boolean;
     cancelled: boolean;
-    awarded: boolean;
+    awarded?: boolean;
     scoreStr: string;
-    reason: {
+    liveTime?: {
+        short: string;
+        long: string;
+        maxTime: number;
+        addedTime: number;
+    };
+    reason?: {
         short: string;
         shortKey: string;
         long: string;
