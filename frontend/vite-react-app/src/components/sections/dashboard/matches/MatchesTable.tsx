@@ -46,11 +46,9 @@ const MatchesTable: React.FC<MatchTableProps> = ({data, countryCodes}) => {
                   <TableCell align="center" sx={{ width: '20%', textAlign:'center' }}>
                     <Link 
                       to={`/${match.id}`} 
-                      style={{ textDecoration: 'none', color: 'inhert' }}
-                        
+                      style={{ textDecoration: 'none', color: 'inhert' }}         
                     >
-                      {match.statusId > 1 ? `${match.home.score} - ${match.away.score}` : match.time}
-                      {/* {match.time} */}
+                      {match.statusId > 1 ? `${match.home.score} - ${match.away.score}` : match.status.utcTime}
                     </Link>
                   </TableCell>
                   <TableCell align="right" sx={{ width: '40%', textAlign:'right' }}>{match.away.longName}</TableCell>

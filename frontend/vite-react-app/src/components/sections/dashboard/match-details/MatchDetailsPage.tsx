@@ -25,28 +25,28 @@ const MatchDetailsPage: React.FC = () => {
         <Box width="100%">
             <MatchHeader data={data}/>
 
-            { data.content.shotmap?.Periods?.All && data.general.homeTeam?.id && data.general.awayTeam?.id && (
-                <ShotMap 
-                    shotData={data.content.shotmap.Periods.All} 
-                    homeTeamId={data.general.homeTeam.id} 
-                    awayTeamId={data.general.awayTeam.id}
-                />
-            )}
             
 
-            { data.content.momentum?.main?.data && 
-            data.general.teamColors?.darkMode?.home && 
-            data.general.teamColors?.darkMode?.home && ( 
-                <Box>
-                    <MomentumChart 
-                        data={data.content.momentum.main.data} 
-                        width={1700} 
-                        height={1400}
-                        homeTeamColor={data.general.teamColors.darkMode.home}
-                        awayTeamColor={data.general.teamColors.darkMode.away}
+            { data.general.started && data.content.momentum && data.content.shotmap && (
+                <>
+                    <ShotMap 
+                        shotData={data.content.shotmap.Periods.All} 
+                        homeTeamId={data.general.homeTeam.id} 
+                        awayTeamId={data.general.awayTeam.id}
                     />
-                </Box>
+                
+                    <Box>
+                        <MomentumChart 
+                            data={data.content.momentum.main.data} 
+                            width={1700} 
+                            height={1400}
+                            homeTeamColor={data.general.teamColors.darkMode.home}
+                            awayTeamColor={data.general.teamColors.darkMode.away}
+                        />
+                    </Box>
+                </>
             )}
+            
         </Box>
     )
 }

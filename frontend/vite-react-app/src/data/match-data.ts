@@ -18,6 +18,14 @@ export interface Match {
     longName: string;
   };
   statusId: number;
+  status: {
+    utcTime: string;
+    started: boolean;
+    finished: boolean;
+    cancelled: boolean;
+    onGoing: boolean;
+    scoreStr: string;
+  };
   tournamentStage: string;
   // can add 'status' here from API response later if needed
 }
