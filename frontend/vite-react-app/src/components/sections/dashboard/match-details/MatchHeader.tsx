@@ -1,7 +1,6 @@
 import { Box, Typography, Avatar } from '@mui/material';
 import { MatchDetails } from 'data/match-details-data';
-import { format,  } from 'date-fns-tz';
-import { parse } from 'date-fns';
+
 
 interface MatchHeaderProps {
     data: MatchDetails;
@@ -21,9 +20,10 @@ const MatchHeader: React.FC<MatchHeaderProps> = ({ data }) => {
     return (
         <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={3.5}>
             <Box 
-                gridColumn={{ xs:'span 12', lg: 'span 8' }} 
-                order={{ xs: 0 }}
-                
+                gridColumn={{ xs:'span 12'}} 
+                display="flex"
+                justifyContent="center"
+                textAlign="center"
             >
                     { data.general.leagueRoundName !== null 
                         ? <Typography variant="h4">{ data.general.leagueName } { data.general.leagueRoundName }</Typography>
@@ -35,7 +35,8 @@ const MatchHeader: React.FC<MatchHeaderProps> = ({ data }) => {
                 gridColumn={{ xs:'span 12', lg: 'span 10' }}
                 display="flex" 
                 width="100%" 
-                justifyContent="space-between"  >
+                justifyContent="space-between"  
+            >
                     <Box display="flex" alignItems="center">
                         <Avatar src={data.header.teams[0].imageUrl} alt={data.header.teams[0].name}/>
                         <Typography variant="h4" mx="auto">{data.header.teams[0].name}</Typography>

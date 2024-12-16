@@ -22,10 +22,19 @@ const MatchDetailsPage: React.FC = () => {
     if (!data) return <div>Match not availabe</div>;
 
     return (
-        <Box width="100%">
+        <Box 
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+                width: "90%",
+                maxWidth: "1200px",
+                margin: "0, auto",
+                padding: "24px",
+            }}    
+        >
             <MatchHeader data={data}/>
-
-            
 
             { data.general.started && data.content.momentum && data.content.shotmap && (
                 <>
